@@ -97,9 +97,9 @@ function Gauge({ score }: { score: number }) {
       </svg>
       <div className="text-center" style={{ marginTop: "-4px" }}>
         <span style={{ fontSize: "3.5rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1, fontFamily: "Georgia, serif" }}>
-          {displayed}
+          {Math.round(displayed / 10)}
         </span>
-        <span className="block text-xs tracking-widest mt-1" style={{ color: "#9ca3af", letterSpacing: "0.15em" }}>OUT OF 100</span>
+        <span className="block text-xs tracking-widest mt-1" style={{ color: "#9ca3af", letterSpacing: "0.15em" }}>OUT OF 10</span>
       </div>
     </div>
   );
