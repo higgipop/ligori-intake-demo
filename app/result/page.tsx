@@ -7,7 +7,7 @@ function GaugeNeedle({ angle }: { angle: number }) {
   const rad = (angle * Math.PI) / 180;
   const cx = 150, cy = 150, len = 90;
   const x2 = cx + len * Math.cos(rad);
-  const y2 = cy + len * Math.sin(rad);
+  const y2 = cy - len * Math.sin(rad);
   return (
     <>
       <line x1={cx} y1={cy} x2={x2} y2={y2} stroke="var(--charcoal)" strokeWidth="3" strokeLinecap="round" />
@@ -52,17 +52,17 @@ function Gauge({ score }: { score: number }) {
     const s = (startDeg * Math.PI) / 180;
     const e = (endDeg * Math.PI) / 180;
     const x1 = cx + r * Math.cos(s);
-    const y1 = cy + r * Math.sin(s);
+    const y1 = cy - r * Math.sin(s);
     const x2 = cx + r * Math.cos(e);
-    const y2 = cy + r * Math.sin(e);
+    const y2 = cy - r * Math.sin(e);
     const large = Math.abs(endDeg - startDeg) > 180 ? 1 : 0;
-    const sweep = endDeg < startDeg ? 1 : 0;
+    const sweep = endDeg < startDeg ? 0 : 1;
     return `M ${x1} ${y1} A ${r} ${r} 0 ${large} ${sweep} ${x2} ${y2}`;
   }
 
   return (
     <div className="flex flex-col items-center">
-      <svg viewBox="30 60 240 120" className="w-full max-w-xs">
+      <svg viewBox="10 10 280 155" className="w-full max-w-xs">
         {/* Track */}
         <path d={arcPath(180, 0, 110)} stroke="#e2e2e8" strokeWidth="18" fill="none" strokeLinecap="butt" />
         {/* Colored segments */}
@@ -76,8 +76,8 @@ function Gauge({ score }: { score: number }) {
           const r1 = 97, r2 = 125;
           return (
             <line key={v}
-              x1={150 + r1 * Math.cos(rad)} y1={150 + r1 * Math.sin(rad)}
-              x2={150 + r2 * Math.cos(rad)} y2={150 + r2 * Math.sin(rad)}
+              x1={150 + r1 * Math.cos(rad)} y1={150 - r1 * Math.sin(rad)}
+              x2={150 + r2 * Math.cos(rad)} y2={150 - r2 * Math.sin(rad)}
               stroke="white" strokeWidth="2" />
           );
         })}
@@ -87,7 +87,7 @@ function Gauge({ score }: { score: number }) {
           const rad = (deg * Math.PI) / 180;
           const r = 135;
           return (
-            <text key={v} x={150 + r * Math.cos(rad)} y={150 + r * Math.sin(rad)}
+            <text key={v} x={150 + r * Math.cos(rad)} y={150 - r * Math.sin(rad)}
               textAnchor="middle" dominantBaseline="middle" fontSize="9" fill="#6b7280">
               {v}
             </text>
@@ -95,8 +95,8 @@ function Gauge({ score }: { score: number }) {
         })}
         <GaugeNeedle angle={angle} />
         {/* Score in center */}
-        <text x="150" y="148" textAnchor="middle" fontSize="32" fontWeight="700" fill="var(--charcoal)">{displayed}</text>
-        <text x="150" y="162" textAnchor="middle" fontSize="9" fill="#9ca3af" letterSpacing="2">OUT OF 100</text>
+        <text x="150" y="155" textAnchor="middle" fontSize="28" fontWeight="700" fill="var(--charcoal)">{displayed}</text>
+        <text x="150" y="166" textAnchor="middle" fontSize="8" fill="#9ca3af" letterSpacing="2">OUT OF 100</text>
       </svg>
     </div>
   );
