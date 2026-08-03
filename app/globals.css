@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+:root {
+  --crimson: #8B1A1A;
+  --crimson-dark: #6B1313;
+  --gold: #C9A84C;
+  --charcoal: #1A1A2E;
+  --slate: #2D2D44;
+  --mist: #F7F7FA;
+}
+
+body {
+  background: var(--mist);
+  color: var(--charcoal);
+  font-family: Georgia, "Times New Roman", serif;
+}
