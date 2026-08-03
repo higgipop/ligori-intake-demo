@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Intake Dashboard | Chris Ligori & Associates",
-  robots: "noindex, nofollow",
-};
-
-export const dynamic = "force-dynamic";
+import { useState } from "react";
 
 type Tier = "strong" | "promising" | "possible" | "challenging" | "unlikely";
 
@@ -15,6 +10,7 @@ interface Submission {
   firstName: string;
   lastName: string;
   phone: string;
+  email: string;
   practiceArea: string;
   score: number;
   tier: Tier;
@@ -22,53 +18,57 @@ interface Submission {
   callPriority: string;
 }
 
-function getSubmissions(): Submission[] {
-  const now = Date.now();
-  return [
-    {
-      id: "1", ts: now - 1000 * 60 * 8,
-      firstName: "Maria", lastName: "Rodriguez", phone: "(813) 555-0142",
-      practiceArea: "auto", score: 91, tier: "strong", tierLabel: "Strong Case",
-      callPriority: "Same-day call",
-    },
-    {
-      id: "2", ts: now - 1000 * 60 * 47,
-      firstName: "James", lastName: "Patterson", phone: "(813) 555-0318",
-      practiceArea: "wrongful-death", score: 84, tier: "strong", tierLabel: "Strong Case",
-      callPriority: "Same-day call",
-    },
-    {
-      id: "3", ts: now - 1000 * 60 * 112,
-      firstName: "Samantha", lastName: "Walsh", phone: "(727) 555-0229",
-      practiceArea: "med-mal", score: 72, tier: "promising", tierLabel: "Promising",
-      callPriority: "24-hour callback",
-    },
-    {
-      id: "4", ts: now - 1000 * 60 * 195,
-      firstName: "Robert", lastName: "Nguyen", phone: "(813) 555-0477",
-      practiceArea: "auto", score: 64, tier: "promising", tierLabel: "Promising",
-      callPriority: "24-hour callback",
-    },
-    {
-      id: "5", ts: now - 1000 * 60 * 260,
-      firstName: "Lisa", lastName: "Monroe", phone: "(813) 555-0093",
-      practiceArea: "slip-fall", score: 48, tier: "possible", tierLabel: "Possible",
-      callPriority: "48-hour callback",
-    },
-    {
-      id: "6", ts: now - 1000 * 60 * 60 * 6,
-      firstName: "Kevin", lastName: "Torres", phone: "(727) 555-0351",
-      practiceArea: "auto", score: 29, tier: "challenging", tierLabel: "Challenging",
-      callPriority: "Lower priority",
-    },
-    {
-      id: "7", ts: now - 1000 * 60 * 60 * 14,
-      firstName: "Ashley", lastName: "Brown", phone: "(813) 555-0688",
-      practiceArea: "slip-fall", score: 12, tier: "unlikely", tierLabel: "Unlikely",
-      callPriority: "Auto-response only",
-    },
-  ];
-}
+const SUBMISSIONS: Submission[] = [
+  {
+    id: "1", ts: Date.now() - 1000 * 60 * 8,
+    firstName: "Maria", lastName: "Rodriguez",
+    phone: "(813) 555-0142", email: "m.rodriguez@gmail.com",
+    practiceArea: "auto", score: 91, tier: "strong", tierLabel: "Strong Case",
+    callPriority: "Same-day call",
+  },
+  {
+    id: "2", ts: Date.now() - 1000 * 60 * 47,
+    firstName: "James", lastName: "Patterson",
+    phone: "(813) 555-0318", email: "james.p@outlook.com",
+    practiceArea: "wrongful-death", score: 84, tier: "strong", tierLabel: "Strong Case",
+    callPriority: "Same-day call",
+  },
+  {
+    id: "3", ts: Date.now() - 1000 * 60 * 112,
+    firstName: "Samantha", lastName: "Walsh",
+    phone: "(727) 555-0229", email: "swalsh@gmail.com",
+    practiceArea: "med-mal", score: 72, tier: "promising", tierLabel: "Promising",
+    callPriority: "24-hour callback",
+  },
+  {
+    id: "4", ts: Date.now() - 1000 * 60 * 195,
+    firstName: "Robert", lastName: "Nguyen",
+    phone: "(813) 555-0477", email: "rnguyen@gmail.com",
+    practiceArea: "auto", score: 64, tier: "promising", tierLabel: "Promising",
+    callPriority: "24-hour callback",
+  },
+  {
+    id: "5", ts: Date.now() - 1000 * 60 * 260,
+    firstName: "Lisa", lastName: "Monroe",
+    phone: "(813) 555-0093", email: "lmonroe@icloud.com",
+    practiceArea: "slip-fall", score: 48, tier: "possible", tierLabel: "Possible",
+    callPriority: "48-hour callback",
+  },
+  {
+    id: "6", ts: Date.now() - 1000 * 60 * 60 * 6,
+    firstName: "Kevin", lastName: "Torres",
+    phone: "(727) 555-0351", email: "k.torres@gmail.com",
+    practiceArea: "auto", score: 29, tier: "challenging", tierLabel: "Challenging",
+    callPriority: "Lower priority",
+  },
+  {
+    id: "7", ts: Date.now() - 1000 * 60 * 60 * 14,
+    firstName: "Ashley", lastName: "Brown",
+    phone: "(813) 555-0688", email: "abrown@yahoo.com",
+    practiceArea: "slip-fall", score: 12, tier: "unlikely", tierLabel: "Unlikely",
+    callPriority: "Auto-response only",
+  },
+];
 
 function scoreColor(score: number): string {
   if (score >= 80) return "#16A34A";
@@ -100,11 +100,11 @@ function timeAgo(ts: number): string {
 
 function PriorityBadge({ priority }: { priority: string }) {
   const styles: Record<string, { bg: string; color: string }> = {
-    "Same-day call":     { bg: "#8B1A1A", color: "white" },
-    "24-hour callback":  { bg: "#EA580C", color: "white" },
-    "48-hour callback":  { bg: "#FEF9C3", color: "#92400E" },
-    "Lower priority":    { bg: "#e5e7eb", color: "#6b7280" },
-    "Auto-response only":{ bg: "#f3f4f6", color: "#9ca3af" },
+    "Same-day call":      { bg: "#8B1A1A", color: "white" },
+    "24-hour callback":   { bg: "#EA580C", color: "white" },
+    "48-hour callback":   { bg: "#FEF9C3", color: "#92400E" },
+    "Lower priority":     { bg: "#e5e7eb", color: "#6b7280" },
+    "Auto-response only": { bg: "#f3f4f6", color: "#9ca3af" },
   };
   const s = styles[priority] ?? styles["Lower priority"];
   return (
@@ -115,14 +115,95 @@ function PriorityBadge({ priority }: { priority: string }) {
   );
 }
 
+function PushButton({ submission }: { submission: Submission }) {
+  const [status, setStatus] = useState<"idle" | "pushing" | "done" | "error">("idle");
+
+  async function handlePush() {
+    setStatus("pushing");
+    try {
+      const res = await fetch("/api/push-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submission),
+      });
+      setStatus(res.ok ? "done" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "done") {
+    return (
+      <span className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#16A34A" }}>
+        <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 8l4 4 8-8" />
+        </svg>
+        Sent to Lead Docket
+      </span>
+    );
+  }
+
+  return (
+    <button
+      onClick={handlePush}
+      disabled={status === "pushing"}
+      className="text-xs font-semibold px-3 py-1.5 rounded-lg border-2 transition-all"
+      style={{
+        borderColor: status === "error" ? "#DC2626" : "var(--crimson)",
+        color: status === "error" ? "#DC2626" : "var(--crimson)",
+        background: "white",
+        opacity: status === "pushing" ? 0.6 : 1,
+        cursor: status === "pushing" ? "not-allowed" : "pointer",
+      }}>
+      {status === "pushing" ? "Pushing…" : status === "error" ? "Failed — retry" : "Push to Lead Docket →"}
+    </button>
+  );
+}
+
+const ADMIN_PIN = "ligori2026";
+
+function PinGate({ onUnlock }: { onUnlock: () => void }) {
+  const [pin, setPin] = useState("");
+  const [error, setError] = useState(false);
+
+  function check() {
+    if (pin === ADMIN_PIN) { onUnlock(); }
+    else { setError(true); setPin(""); }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--charcoal)" }}>
+      <div className="w-full max-w-xs rounded-2xl p-8" style={{ background: "white" }}>
+        <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--crimson)" }}>Chris Ligori &amp; Associates</p>
+        <p className="font-bold text-lg mb-6" style={{ color: "var(--charcoal)" }}>Intake Dashboard</p>
+        <input
+          type="password" value={pin} onChange={e => { setPin(e.target.value); setError(false); }}
+          onKeyDown={e => e.key === "Enter" && check()}
+          placeholder="Access code"
+          autoFocus
+          className="w-full px-4 py-3 rounded-xl border-2 text-sm focus:outline-none mb-3"
+          style={{ borderColor: error ? "#DC2626" : "#d8d8e4" }} />
+        {error && <p className="text-xs text-red-600 mb-3">Incorrect code</p>}
+        <button onClick={check}
+          className="w-full py-3 rounded-xl text-white text-sm font-bold"
+          style={{ background: "var(--crimson)" }}>
+          Continue
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
-  const subs = getSubmissions().sort((a, b) => b.score - a.score);
-  const strongCount = subs.filter(s => s.score >= 80).length;
-  const avgScore = Math.round(subs.reduce((sum, s) => sum + s.score, 0) / subs.length);
+  const [unlocked, setUnlocked] = useState(false);
+  if (!unlocked) return <PinGate onUnlock={() => setUnlocked(true)} />;
+
+  const sorted = [...SUBMISSIONS].sort((a, b) => b.score - a.score);
+  const strongCount = sorted.filter(s => s.score >= 80).length;
+  const avgScore = Math.round(sorted.reduce((sum, s) => sum + s.score, 0) / sorted.length);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--mist)" }}>
-      {/* Header */}
       <header className="py-5 px-6" style={{ background: "var(--charcoal)", borderBottom: "3px solid var(--crimson)" }}>
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
@@ -140,7 +221,7 @@ export default function AdminDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           {([
-            { label: "Total Today", value: subs.length, accent: false },
+            { label: "Total Today", value: sorted.length, accent: false },
             { label: "Priority (Strong)", value: strongCount, accent: true },
             { label: "Avg Score", value: avgScore, accent: false },
           ] as { label: string; value: number; accent: boolean }[]).map(stat => (
@@ -174,14 +255,14 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Submissions list */}
+        {/* Submissions */}
         <div className="space-y-3">
-          {subs.map(s => (
+          {sorted.map(s => (
             <div key={s.id} className="rounded-2xl p-5"
               style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.06)", borderLeft: `4px solid ${scoreColor(s.score)}` }}>
               <div className="flex gap-5 items-start">
 
-                {/* Score column */}
+                {/* Score */}
                 <div className="flex-shrink-0 w-14 text-center">
                   <div className="text-3xl font-bold leading-none" style={{ color: scoreColor(s.score), fontFamily: "Georgia, serif" }}>
                     {s.score}
@@ -192,7 +273,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* Info column */}
+                {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-start justify-between gap-2 mb-1.5">
                     <div>
@@ -207,9 +288,10 @@ export default function AdminDashboard() {
                     </div>
                     <PriorityBadge priority={s.callPriority} />
                   </div>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-gray-400 mb-3">
                     {caseTypeLabel(s.practiceArea)} · {s.tierLabel} · {timeAgo(s.ts)}
                   </p>
+                  <PushButton submission={s} />
                 </div>
 
               </div>
