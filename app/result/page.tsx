@@ -62,7 +62,7 @@ function Gauge({ score }: { score: number }) {
 
   return (
     <div className="flex flex-col items-center">
-      <svg viewBox="10 10 280 155" className="w-full max-w-xs">
+      <svg viewBox="10 10 280 142" className="w-full max-w-xs">
         {/* Track */}
         <path d={arcPath(180, 0, 110)} stroke="#e2e2e8" strokeWidth="18" fill="none" strokeLinecap="butt" />
         {/* Colored segments */}
@@ -94,10 +94,13 @@ function Gauge({ score }: { score: number }) {
           );
         })}
         <GaugeNeedle angle={angle} />
-        {/* Score in center */}
-        <text x="150" y="155" textAnchor="middle" fontSize="28" fontWeight="700" fill="var(--charcoal)">{displayed}</text>
-        <text x="150" y="166" textAnchor="middle" fontSize="8" fill="#9ca3af" letterSpacing="2">OUT OF 100</text>
       </svg>
+      <div className="text-center" style={{ marginTop: "-4px" }}>
+        <span style={{ fontSize: "3.5rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1, fontFamily: "Georgia, serif" }}>
+          {displayed}
+        </span>
+        <span className="block text-xs tracking-widest mt-1" style={{ color: "#9ca3af", letterSpacing: "0.15em" }}>OUT OF 100</span>
+      </div>
     </div>
   );
 }

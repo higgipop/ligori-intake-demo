@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { FormData, PracticeArea, Recency, Fault, Treatment, Insurance, InjuryType } from "@/lib/types";
+import type { FormData, PracticeArea, Recency, RecencySpecific, Fault, Treatment, Insurance, InjuryType } from "@/lib/types";
 
 const TOTAL_STEPS = 9;
 
 const empty: FormData = {
   firstName: "", lastName: "", phone: "", email: "",
-  practiceArea: "", recency: "", represented: null,
+  practiceArea: "", recency: "", recencySpecific: "", represented: null,
   fault: "", treatment: "", injuries: [], insurance: "", description: "",
 };
 
@@ -229,10 +229,29 @@ export default function IntakeForm() {
                   ["1-to-2", "1 to 2 years ago"],
                   ["over-2", "More than 2 years ago"],
                 ] as [Recency, string][]).map(([val, label]) => (
-                  <OptionButton key={val} selected={data.recency === val} onClick={() => set("recency", val)}>{label}</OptionButton>
+                  <OptionButton key={val} selected={data.recency === val} onClick={() => {
+                    set("recency", val);
+                    if (val !== "under-6") set("recencySpecific", "");
+                  }}>{label}</OptionButton>
                 ))}
               </div>
-              <NavButtons step={step} onBack={() => setStep(s => s - 1)} onNext={() => advance({ recency: data.recency })} nextDisabled={!data.recency} />
+              {data.recency === "under-6" && (
+                <div className="mt-6">
+                  <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: "var(--crimson)" }}>How recent?</p>
+                  <div className="space-y-3">
+                    {([
+                      ["under-1-month", "Less than 1 month ago"],
+                      ["1-to-3-months", "1 to 3 months ago"],
+                      ["3-to-6-months", "3 to 6 months ago"],
+                    ] as [RecencySpecific, string][]).map(([val, label]) => (
+                      <OptionButton key={val} selected={data.recencySpecific === val} onClick={() => set("recencySpecific", val)}>{label}</OptionButton>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <NavButtons step={step} onBack={() => setStep(s => s - 1)}
+                onNext={() => advance({ recency: data.recency, recencySpecific: data.recencySpecific })}
+                nextDisabled={!data.recency || (data.recency === "under-6" && !data.recencySpecific)} />
             </>
 
           ) : step === 3 ? (
@@ -306,15 +325,25 @@ export default function IntakeForm() {
               <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--charcoal)" }}>Does the at-fault party have insurance?</h2>
               <p className="text-sm text-gray-500 mb-6">This affects your ability to recover compensation.</p>
               <div className="space-y-3">
-                {([
-                  ["confirmed", "Yes — I have their insurance information"],
-                  ["likely", "I believe so, but I don't have the details"],
-                  ["uninsured-with-um", "They were uninsured, but I have uninsured motorist coverage"],
-                  ["uninsured-no-um", "They were uninsured and I don't have UM coverage"],
-                  ["unknown", "I'm not sure"],
-                ] as [Insurance, string][]).map(([val, label]) => (
-                  <OptionButton key={val} selected={data.insurance === val} onClick={() => set("insurance", val)}>{label}</OptionButton>
-                ))}
+                {data.practiceArea === "auto" ? (
+                  ([
+                    ["confirmed", "Yes — I have their insurance information"],
+                    ["likely", "I believe so, but I don't have the details"],
+                    ["uninsured-with-um", "They were uninsured, but I have uninsured motorist (UM) coverage"],
+                    ["uninsured-no-um", "They were uninsured and I don't have UM coverage"],
+                    ["unknown", "I'm not sure"],
+                  ] as [Insurance, string][]).map(([val, label]) => (
+                    <OptionButton key={val} selected={data.insurance === val} onClick={() => set("insurance", val)}>{label}</OptionButton>
+                  ))
+                ) : (
+                  ([
+                    ["confirmed", "Yes — the responsible party has insurance"],
+                    ["likely", "I believe so, but I don't have their details"],
+                    ["unknown", "I'm not certain"],
+                  ] as [Insurance, string][]).map(([val, label]) => (
+                    <OptionButton key={val} selected={data.insurance === val} onClick={() => set("insurance", val)}>{label}</OptionButton>
+                  ))
+                )}
               </div>
               <NavButtons step={step} onBack={() => setStep(s => s - 1)} onNext={() => advance()} nextDisabled={!data.insurance} />
             </>

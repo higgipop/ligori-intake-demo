@@ -12,6 +12,11 @@ export type Recency =
   | "1-to-2"
   | "over-2";
 
+export type RecencySpecific =
+  | "under-1-month"
+  | "1-to-3-months"
+  | "3-to-6-months";
+
 export type Fault =
   | "them"
   | "mostly-them"
@@ -53,6 +58,7 @@ export interface FormData {
 
   // Step 2
   recency: Recency | "";
+  recencySpecific: RecencySpecific | "";
 
   // Step 3
   represented: boolean | null;
