@@ -160,44 +160,7 @@ function PushButton({ submission }: { submission: Submission }) {
   );
 }
 
-const ADMIN_PIN = "ligori2026";
-
-function PinGate({ onUnlock }: { onUnlock: () => void }) {
-  const [pin, setPin] = useState("");
-  const [error, setError] = useState(false);
-
-  function check() {
-    if (pin === ADMIN_PIN) { onUnlock(); }
-    else { setError(true); setPin(""); }
-  }
-
-  return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--charcoal)" }}>
-      <div className="w-full max-w-xs rounded-2xl p-8" style={{ background: "white" }}>
-        <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--crimson)" }}>Chris Ligori &amp; Associates</p>
-        <p className="font-bold text-lg mb-6" style={{ color: "var(--charcoal)" }}>Intake Dashboard</p>
-        <input
-          type="password" value={pin} onChange={e => { setPin(e.target.value); setError(false); }}
-          onKeyDown={e => e.key === "Enter" && check()}
-          placeholder="Access code"
-          autoFocus
-          className="w-full px-4 py-3 rounded-xl border-2 text-sm focus:outline-none mb-3"
-          style={{ borderColor: error ? "#DC2626" : "#d8d8e4" }} />
-        {error && <p className="text-xs text-red-600 mb-3">Incorrect code</p>}
-        <button onClick={check}
-          className="w-full py-3 rounded-xl text-white text-sm font-bold"
-          style={{ background: "var(--crimson)" }}>
-          Continue
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export default function AdminDashboard() {
-  const [unlocked, setUnlocked] = useState(false);
-  if (!unlocked) return <PinGate onUnlock={() => setUnlocked(true)} />;
-
   const sorted = [...SUBMISSIONS].sort((a, b) => b.score - a.score);
   const strongCount = sorted.filter(s => s.score >= 80).length;
   const avgScore = Math.round(sorted.reduce((sum, s) => sum + s.score, 0) / sorted.length);
