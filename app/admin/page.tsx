@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Tier = "strong" | "promising" | "possible" | "challenging" | "unlikely";
 
@@ -18,7 +18,7 @@ interface Submission {
   callPriority: string;
 }
 
-const SUBMISSIONS: Submission[] = [
+const DEMO_SUBMISSIONS: Submission[] = [
   {
     id: "1", ts: Date.now() - 1000 * 60 * 8,
     firstName: "Maria", lastName: "Rodriguez",
@@ -161,9 +161,28 @@ function PushButton({ submission }: { submission: Submission }) {
 }
 
 export default function AdminDashboard() {
-  const sorted = [...SUBMISSIONS].sort((a, b) => b.score - a.score);
+  const [submissions, setSubmissions] = useState<Submission[]>(DEMO_SUBMISSIONS);
+  const [isDemo, setIsDemo] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/submissions")
+      .then(r => r.json())
+      .then((data: Submission[]) => {
+        if (data.length > 0) {
+          setSubmissions(data);
+          setIsDemo(false);
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const sorted = [...submissions].sort((a, b) => b.score - a.score);
   const strongCount = sorted.filter(s => s.score >= 80).length;
-  const avgScore = Math.round(sorted.reduce((sum, s) => sum + s.score, 0) / sorted.length);
+  const avgScore = sorted.length
+    ? Math.round(sorted.reduce((sum, s) => sum + s.score, 0) / sorted.length)
+    : 0;
 
   return (
     <div className="min-h-screen" style={{ background: "var(--mist)" }}>
@@ -263,7 +282,7 @@ export default function AdminDashboard() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-10">
-          Demo data · Live submissions connect at buildout
+          {loading ? "Loading…" : isDemo ? "Showing demo data · Live submissions appear here after form is submitted" : `${sorted.length} live submission${sorted.length !== 1 ? "s" : ""}`}
         </p>
       </div>
     </div>
