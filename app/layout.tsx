@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <p className="mt-1">© {new Date().getFullYear()} Chris Ligori &amp; Associates · All Rights Reserved</p>
         </footer>
       </body>
+      <GoogleAnalytics gaId="G-6GSZ0QPM8L" />
     </html>
   );
 }
