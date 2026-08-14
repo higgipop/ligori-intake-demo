@@ -109,9 +109,9 @@ function ExitCard({ message }: { message: string }) {
       </div>
       <p className="text-white text-lg font-bold mb-3">Thank You for Reaching Out</p>
       <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-sm mx-auto">{message}</p>
-      <a href="tel:8132056160" className="inline-block px-8 py-3 rounded-xl text-white font-bold text-sm"
+      <a href="tel:8132232929" className="inline-block px-8 py-3 rounded-xl text-white font-bold text-sm"
         style={{ background: "var(--crimson)" }}>
-        Call (813) 205-6160
+        Call (813) 223-2929
       </a>
     </div>
   );
@@ -284,16 +284,26 @@ export default function IntakeForm() {
 
           ) : step === 5 ? (
             <>
-              <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--charcoal)" }}>Did you seek medical treatment?</h2>
+              <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--charcoal)" }}>
+                {data.practiceArea === "wrongful-death"
+                  ? "Did your loved one receive medical treatment before passing?"
+                  : "Did you seek medical treatment?"}
+              </h2>
               <p className="text-sm text-gray-500 mb-6">Medical documentation is critical to the value of your case.</p>
               <div className="space-y-3">
-                {([
+                {(data.practiceArea === "wrongful-death" ? ([
+                  ["same-day", "Yes — hospitalized or emergency care immediately"],
+                  ["within-3", "Yes — received emergency treatment"],
+                  ["within-2-weeks", "Yes — received medical care before passing"],
+                  ["over-2-weeks", "They passed before receiving treatment"],
+                  ["none", "No medical care was sought"],
+                ] as [Treatment, string][]) : ([
                   ["same-day", "Yes — ER or urgent care the same day"],
                   ["within-3", "Yes — within 3 days"],
                   ["within-2-weeks", "Yes — within 2 weeks"],
                   ["over-2-weeks", "Yes — but it took more than 2 weeks"],
                   ["none", "No, I haven't sought treatment yet"],
-                ] as [Treatment, string][]).map(([val, label]) => (
+                ] as [Treatment, string][])).map(([val, label]) => (
                   <OptionButton key={val} selected={data.treatment === val} onClick={() => set("treatment", val)}>{label}</OptionButton>
                 ))}
               </div>
@@ -302,10 +312,22 @@ export default function IntakeForm() {
 
           ) : step === 6 ? (
             <>
-              <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--charcoal)" }}>How would you describe your injuries?</h2>
+              <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--charcoal)" }}>
+                {data.practiceArea === "wrongful-death"
+                  ? "What best describes the nature of their injuries?"
+                  : "How would you describe your injuries?"}
+              </h2>
               <p className="text-sm text-gray-500 mb-6">Select all that apply.</p>
               <div className="space-y-3">
-                {([
+                {(data.practiceArea === "wrongful-death" ? ([
+                  ["broken-bones", "Traumatic impact injuries (broken bones, crush injuries)"],
+                  ["surgery", "Medical negligence or surgical complications"],
+                  ["hospitalization", "They were hospitalized before passing"],
+                  ["head-injury", "Head, brain, or spinal injury"],
+                  ["neck-back", "Severe or catastrophic bodily injuries"],
+                  ["emotional", "Surviving family members have experienced significant trauma"],
+                  ["minor", "Circumstances or cause of death are unclear or disputed"],
+                ] as [InjuryType, string][]) : ([
                   ["broken-bones", "Broken bones or fractures"],
                   ["surgery", "Surgery was required or recommended"],
                   ["hospitalization", "I was hospitalized"],
@@ -313,7 +335,7 @@ export default function IntakeForm() {
                   ["neck-back", "Neck, back, or shoulder injuries"],
                   ["emotional", "Emotional distress or PTSD"],
                   ["minor", "Minor cuts, bruises, or soreness"],
-                ] as [InjuryType, string][]).map(([val, label]) => (
+                ] as [InjuryType, string][])).map(([val, label]) => (
                   <CheckButton key={val} selected={data.injuries.includes(val)} onClick={() => toggleInjury(val)}>{label}</CheckButton>
                 ))}
               </div>

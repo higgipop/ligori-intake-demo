@@ -169,9 +169,9 @@ export default function ResultPage() {
           </div>
           <p className="text-xl font-bold mb-3" style={{ color: "var(--charcoal)" }}>Thank You for Reaching Out</p>
           <p className="text-sm text-gray-500 leading-relaxed mb-6">{result.message}</p>
-          <a href="tel:8132056160" className="inline-block px-8 py-3 rounded-xl text-white font-bold text-sm"
+          <a href="tel:8132232929" className="inline-block px-8 py-3 rounded-xl text-white font-bold text-sm"
             style={{ background: "var(--crimson)" }}>
-            Call (813) 205-6160
+            Call (813) 223-2929
           </a>
         </div>
       </div>
@@ -215,10 +215,10 @@ export default function ResultPage() {
         <div className="rounded-2xl p-7 text-center" style={{ background: "var(--charcoal)" }}>
           <p className="text-white font-bold text-lg mb-2">Speak with an Attorney</p>
           <p className="text-white/60 text-sm mb-5">Our team reviews every submission. We&apos;ll be in touch — but you can also call us directly now.</p>
-          <a href="tel:8132056160"
+          <a href="tel:8132232929"
             className="inline-block px-8 py-3 rounded-xl text-white font-bold text-sm"
             style={{ background: "var(--crimson)" }}>
-            Call (813) 205-6160
+            Call (813) 223-2929
           </a>
           <p className="text-white/30 text-xs mt-4">Available 24/7 · Free consultation · No fee unless we win</p>
         </div>

@@ -137,11 +137,11 @@ function getProspectMessage(tier: ScoreResult["tier"]): string {
 
 function getCallPriority(tier: ScoreResult["tier"]): string {
   switch (tier) {
-    case "strong": return "Same-day callback";
-    case "promising": return "Callback within 24 hours";
-    case "possible": return "Callback within 48 hours";
-    case "challenging": return "Lower priority — callback when available";
-    case "unlikely": return "Auto-response only unless capacity allows";
+    case "strong": return "Same-day call";
+    case "promising": return "24-hour callback";
+    case "possible": return "48-hour callback";
+    case "challenging": return "Lower priority";
+    case "unlikely": return "Auto-response only";
   }
 }
 
