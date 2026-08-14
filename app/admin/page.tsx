@@ -189,7 +189,7 @@ export default function AdminDashboard() {
       <header className="py-5 px-6" style={{ background: "var(--charcoal)", borderBottom: "3px solid var(--crimson)" }}>
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
-            <p className="text-white font-bold text-base tracking-wide">Chris Ligori &amp; Associates</p>
+            <p className="text-white font-bold text-base tracking-wide">Case Evaluation</p>
             <p className="text-xs tracking-widest uppercase" style={{ color: "var(--gold)" }}>Intake Dashboard</p>
           </div>
           <p className="text-white/40 text-xs">

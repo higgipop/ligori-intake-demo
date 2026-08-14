@@ -138,7 +138,7 @@ export default function IntakeForm() {
   function checkExit(nextData: Partial<FormData>): string | null {
     const m = { ...data, ...nextData };
     if (m.practiceArea === "other")
-      return "Chris Ligori & Associates specializes in personal injury law. Based on what you've described, we may not be the right fit — but we'd be happy to point you in the right direction.";
+      return "This firm specializes in personal injury law. Based on what you've described, we may not be the right fit — but we'd be happy to point you in the right direction.";
     if (m.recency === "over-2")
       return "Florida law requires personal injury claims to be filed within two years of the incident. Based on your timeline, the filing deadline may have passed. We strongly recommend calling our office immediately — there may still be options.";
     if (m.represented === true)

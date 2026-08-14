@@ -6,7 +6,7 @@ export function checkDisqualifiers(data: FormData): DisqualifiedResult | null {
       disqualified: true,
       reason: "practice-area",
       message:
-        "Chris Ligori & Associates specializes in personal injury law. Based on what you've described, we may not be the right fit — but we're happy to point you in the right direction.",
+        "This firm specializes in personal injury law. Based on what you've described, we may not be the right fit — but we're happy to point you in the right direction.",
     };
   }
 

@@ -30,7 +30,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--charcoal)" }}>
       <div className="w-full max-w-xs rounded-2xl p-8" style={{ background: "white" }}>
         <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--crimson)" }}>
-          Chris Ligori &amp; Associates
+          Case Evaluation
         </p>
         <p className="font-bold text-lg mb-6" style={{ color: "var(--charcoal)" }}>Intake Dashboard</p>
         <input
