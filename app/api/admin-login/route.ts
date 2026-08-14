@@ -4,7 +4,11 @@ import { timingSafeEqual, createHmac } from "crypto";
 export const runtime = "nodejs";
 
 const COOKIE = "admin_session";
-const ADMIN_PIN = process.env.ADMIN_PIN ?? "";
+// Supports two independent PINs (e.g. one per person who needs access) —
+// ADMIN_PIN_2 is optional, unset means only ADMIN_PIN is valid.
+const VALID_PINS = [process.env.ADMIN_PIN, process.env.ADMIN_PIN_2].filter(
+  (pin): pin is string => !!pin,
+);
 const ADMIN_SECRET = process.env.ADMIN_SECRET ?? "dev-secret-change-in-production";
 
 function makeToken(): string {
@@ -12,8 +16,18 @@ function makeToken(): string {
 }
 
 function pinValid(input: string): boolean {
-  if (!ADMIN_PIN || input.length !== ADMIN_PIN.length) return false;
-  return timingSafeEqual(Buffer.from(input), Buffer.from(ADMIN_PIN));
+  // Check every candidate rather than short-circuiting on the first
+  // length mismatch, so which PIN (if either) matched isn't
+  // distinguishable via response timing.
+  let matched = false;
+  for (const candidate of VALID_PINS) {
+    if (input.length === candidate.length) {
+      if (timingSafeEqual(Buffer.from(input), Buffer.from(candidate))) {
+        matched = true;
+      }
+    }
+  }
+  return matched;
 }
 
 export async function POST(req: NextRequest) {
