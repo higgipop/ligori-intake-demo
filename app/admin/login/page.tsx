@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLogin() {
   const [pin, setPin] = useState("");
@@ -29,6 +30,7 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--charcoal)" }}>
       <div className="w-full max-w-xs rounded-2xl p-8" style={{ background: "white" }}>
+        <Image src="/pen-shield-logo.svg" alt="" width={40} height={40} className="mb-3" />
         <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--crimson)" }}>
           Case Evaluation
         </p>

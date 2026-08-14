@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="goldMain" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%"  stop-color="#fff3c9"/>
+      <stop offset="22%" stop-color="#f0cd6a"/>
+      <stop offset="45%" stop-color="#c8961f"/>
+      <stop offset="60%" stop-color="#9c6f14"/>
+      <stop offset="78%" stop-color="#e3b74a"/>
+      <stop offset="100%" stop-color="#a97c1c"/>
+    </linearGradient>
+
+    <linearGradient id="goldOutline" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%"  stop-color="#fbe9ad"/>
+      <stop offset="50%" stop-color="#b8860b"/>
+      <stop offset="100%" stop-color="#7c5a10"/>
+    </linearGradient>
+
+    <linearGradient id="navyFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#22375f"/>
+      <stop offset="55%" stop-color="#152645"/>
+      <stop offset="100%" stop-color="#0c1830"/>
+    </linearGradient>
+
+    <linearGradient id="penGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#fff6da"/>
+      <stop offset="20%"  stop-color="#f3d47c"/>
+      <stop offset="42%"  stop-color="#c8961f"/>
+      <stop offset="58%"  stop-color="#8a6410"/>
+      <stop offset="75%"  stop-color="#e8c766"/>
+      <stop offset="100%" stop-color="#a97c1c"/>
+    </linearGradient>
+
+    <linearGradient id="penGradDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#caa044"/>
+      <stop offset="50%"  stop-color="#7c5a10"/>
+      <stop offset="100%" stop-color="#8a6410"/>
+    </linearGradient>
+
+    <!-- Shield silhouette: crenellated top, tapering to a point -->
+    <path id="shieldOuter" d="
+      M 72,132
+      L 72,66  L 148,66  L 148,96
+      L 170,118 L 200,140 L 230,118 L 252,96 L 252,66
+      L 328,66  L 328,132
+      L 328,214
+      C 328,268 308,306 272,332
+      L 200,382
+      L 128,332
+      C 92,306 72,268 72,214
+      Z"/>
+
+    <clipPath id="shieldClip">
+      <use href="#shieldOuter"/>
+    </clipPath>
+  </defs>
+
+  <!-- soft outer glow border (slightly larger duplicate for the double-line look) -->
+  <use href="#shieldOuter" transform="translate(200,219) scale(1.045) translate(-200,-219)"
+       fill="none" stroke="url(#goldOutline)" stroke-width="4" opacity="0.9"/>
+
+  <!-- main shield -->
+  <use href="#shieldOuter" fill="url(#goldMain)" stroke="url(#goldOutline)" stroke-width="3"/>
+
+  <!-- navy right half -->
+  <g clip-path="url(#shieldClip)">
+    <rect x="200" y="60" width="140" height="320" fill="url(#navyFill)"/>
+    <!-- thin gold seam down the centerline -->
+    <rect x="198" y="60" width="4" height="320" fill="url(#goldOutline)" opacity="0.85"/>
+  </g>
+
+  <!-- inner bevel line for extra dimension -->
+  <use href="#shieldOuter" transform="translate(200,219) scale(0.965) translate(-200,-219)"
+       fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
+
+  <!-- ================= PEN ================= -->
+  <!-- Built on a vertical axis (tip at 0,0 pointing down), then rotated to lay diagonally across the shield -->
+  <g transform="translate(104,352) rotate(-135)">
+
+    <!-- clip (drawn first so cap sits above it) -->
+    <path d="M 30,150 C 46,150 50,158 50,172 L 50,268 C 50,282 44,290 34,292 L 30,292 L 30,150 Z"
+          fill="url(#penGrad)" stroke="#6b4d0d" stroke-width="1.5"/>
+
+    <!-- nib -->
+    <path d="M 0,-6
+             C 14,18 22,42 22,64
+             C 22,80 13,90 0,90
+             C -13,90 -22,80 -22,64
+             C -22,42 -14,18 0,-6 Z"
+          fill="url(#penGrad)" stroke="url(#penGradDark)" stroke-width="2"/>
+    <!-- nib slit + breather hole -->
+    <line x1="0" y1="18" x2="0" y2="88" stroke="#5c4109" stroke-width="1.6"/>
+    <circle cx="0" cy="55" r="3.4" fill="#5c4109"/>
+    <path d="M -13,50 C -6,58 6,58 13,50" fill="none" stroke="#6b4d0d" stroke-width="1"/>
+
+    <!-- section / grip -->
+    <path d="M -20,86 C -20,86 -17,110 -15,120 L 15,120 C 17,110 20,86 20,86 Z"
+          fill="url(#penGrad)" stroke="url(#penGradDark)" stroke-width="1.5"/>
+    <line x1="-18" y1="98" x2="18" y2="98" stroke="#7c5a10" stroke-width="1" opacity="0.6"/>
+    <line x1="-17" y1="106" x2="17" y2="106" stroke="#7c5a10" stroke-width="1" opacity="0.6"/>
+    <line x1="-16" y1="114" x2="16" y2="114" stroke="#7c5a10" stroke-width="1" opacity="0.6"/>
+
+    <!-- barrel -->
+    <rect x="-24" y="120" width="48" height="150" rx="10" ry="10"
+          fill="url(#penGrad)" stroke="url(#penGradDark)" stroke-width="2"/>
+    <!-- barrel highlight -->
+    <rect x="-16" y="126" width="6" height="138" rx="3" fill="#ffffff" opacity="0.22"/>
+    <!-- engraved band -->
+    <rect x="-24" y="150" width="48" height="6" fill="#6b4d0d" opacity="0.55"/>
+    <rect x="-24" y="230" width="48" height="6" fill="#6b4d0d" opacity="0.55"/>
+
+    <!-- cap threads ring -->
+    <rect x="-26" y="266" width="52" height="14" rx="4" fill="url(#penGradDark)" stroke="#5c4109" stroke-width="1.5"/>
+
+    <!-- cap -->
+    <path d="M -28,278
+             L -28,352
+             C -28,368 -16,378 0,378
+             C 16,378 28,368 28,352
+             L 28,278
+             C 28,278 16,286 0,286
+             C -16,286 -28,278 -28,278 Z"
+          fill="url(#penGrad)" stroke="url(#penGradDark)" stroke-width="2"/>
+    <!-- cap highlight -->
+    <rect x="-19" y="292" width="7" height="72" rx="3.5" fill="#ffffff" opacity="0.22"/>
+    <!-- cap top ring detail -->
+    <ellipse cx="0" cy="356" rx="22" ry="5" fill="none" stroke="#6b4d0d" stroke-width="1.4" opacity="0.7"/>
+    <!-- cap finial button -->
+    <ellipse cx="0" cy="376" rx="10" ry="6" fill="url(#penGrad)" stroke="url(#penGradDark)" stroke-width="1.5"/>
+  </g>
+</svg>

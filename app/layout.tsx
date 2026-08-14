@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
@@ -12,9 +13,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col" style={{ background: "var(--mist)" }}>
         <header className="py-5 px-6" style={{ background: "var(--charcoal)", borderBottom: "3px solid var(--crimson)" }}>
-          <div className="max-w-2xl mx-auto">
-            <p className="text-white font-bold text-lg tracking-wide">Case Evaluation</p>
-            <p className="text-xs tracking-widest uppercase" style={{ color: "var(--gold)" }}>Personal Injury Intake</p>
+          <div className="max-w-2xl mx-auto flex items-center gap-3">
+            <Image src="/pen-shield-logo.svg" alt="" width={44} height={44} priority />
+            <div>
+              <p className="text-white font-bold text-lg tracking-wide">Case Evaluation</p>
+              <p className="text-xs tracking-widest uppercase" style={{ color: "var(--gold)" }}>Personal Injury Intake</p>
+            </div>
           </div>
         </header>
         <main className="flex-1">{children}</main>

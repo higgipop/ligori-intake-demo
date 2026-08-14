@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 type Tier = "strong" | "promising" | "possible" | "challenging" | "unlikely";
 
@@ -188,9 +189,12 @@ export default function AdminDashboard() {
     <div className="min-h-screen" style={{ background: "var(--mist)" }}>
       <header className="py-5 px-6" style={{ background: "var(--charcoal)", borderBottom: "3px solid var(--crimson)" }}>
         <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <div>
-            <p className="text-white font-bold text-base tracking-wide">Case Evaluation</p>
-            <p className="text-xs tracking-widest uppercase" style={{ color: "var(--gold)" }}>Intake Dashboard</p>
+          <div className="flex items-center gap-3">
+            <Image src="/pen-shield-logo.svg" alt="" width={36} height={36} />
+            <div>
+              <p className="text-white font-bold text-base tracking-wide">Case Evaluation</p>
+              <p className="text-xs tracking-widest uppercase" style={{ color: "var(--gold)" }}>Intake Dashboard</p>
+            </div>
           </div>
           <p className="text-white/40 text-xs">
             {new Date().toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
