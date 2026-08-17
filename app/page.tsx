@@ -181,7 +181,7 @@ export default function IntakeForm() {
 
       <div className="max-w-2xl mx-auto px-4">
         <div className="rounded-2xl shadow-lg p-8" style={{ background: "white" }}>
-          <Progress step={step} />
+          {!exitMessage && <Progress step={step} />}
 
           {exitMessage ? (
             <ExitCard message={exitMessage} />
